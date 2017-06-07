@@ -68,7 +68,7 @@ public class TarefaDAO  {
      * @return Tarefa
      */
 
-    public Tarefa getTarefaById(int id) {
+    public Tarefa getTarefaById(Long id) {
         List list = getSessionFactory().getCurrentSession()
                                             .createQuery("from Tarefa  where id=?")
                                             .setParameter(0, id).list();

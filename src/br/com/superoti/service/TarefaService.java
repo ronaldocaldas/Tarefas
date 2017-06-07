@@ -58,7 +58,7 @@ public class TarefaService {
      * @param  id int Tarefa Id
      */
 
-    public Tarefa getTarefaById(int id) {
+    public Tarefa getTarefaById(Long id) {
         return getTarefaDAO().getTarefaById(id);
     }
 

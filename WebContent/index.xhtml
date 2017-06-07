@@ -2,7 +2,11 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<h:head><title>Projeto Cadastro de Tarefas</title></h:head>
+<h:head>
+	<title>Projeto Cadastro de Tarefas</title>
+	<link type="text/css" rel="stylesheet" href="dot-luv/skin.css" />
+
+</h:head>
 <h:body>
 
   <p:layout fullPage="true">
@@ -14,7 +18,7 @@
             <p:layoutUnit position="center">
                 <h1>Gerenciador de Tarefas</h1>
                 <br/>
-                <h:form prependId="false">
+                <h:form id="tabelaForm">
                     <p:dataTable id="tabela" var="tarefa" value="#{tarefaMB.tarefaList}">
                         <p:column>
                             <f:facet name="header">
@@ -42,23 +46,21 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Alterar"/>
+                                <h:outputText value="Ações"/>
                             </f:facet>
-                            <p:commandButton actionListener="#{tarefaMB.prepararAlterarTarefa}" value="Alterar"  oncomplete="dialogGerTarefa.show()"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Excluir"/>
-                            </f:facet>
-                            <h:commandLink action="#{tarefaMB.excluirTarefa}" value="Excluir"/>
+                            <p:commandButton actionListener="#{tarefaMB.prepararAlterarTarefa}" value="Alterar" update=":formModal:infosTarefa" oncomplete="dialogGerTarefa.show()"/>
+							 <h:commandLink action="#{tarefaMB.excluirTarefa}" value="Excluir"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>
             </p:layoutUnit>
         </p:layout>
 	 	<p:dialog header="Gerencia de Tarefas" widgetVar="dialogGerTarefa" resizable="false" modal="true" showEffect="slide" width="500">
-	            <h:form prependId="false">
-	                <h:panelGrid id="infosLivro" columns="2" style="margin-bottom:10px">
+	            <h:form id="formModal" >
+	                <h:panelGrid id="infosTarefa" columns="2" style="margin-bottom:10px">
+						
+						  <h:outputLabel for="id" value="id:" />
+	                  	  <h:inputText id="id" value="#{tarefaMB.tarefa.id}"/>
 	 
 	                    <h:outputLabel for="titulo" value="Título:" />
 	                    <h:inputText id="titulo" value="#{tarefaMB.tarefa.titulo}"/>
@@ -69,8 +71,8 @@
 	                    <h:outputLabel for="status" value="Status:" />
 	                    <h:inputText id="status" value="#{tarefaMB.tarefa.status}"/>
 	 
-	                    <p:commandButton  oncomplete="dialogGerTarefa.hide();" actionListener="#{tarefaMB.adicionarLivro}" value="Inserir Livro"/>
-	                    <p:commandButton  oncomplete="dialogGerTarefa.hide();" actionListener="#{tarefaMB.alterarLivro}" value="Alterar Livro"/>
+	                    <p:commandButton  oncomplete="dialogGerTarefa.hide();" actionListener="#{tarefaMB.adicionarTarefa}" value="Inserir Tarefa"/>
+	                    <p:commandButton  oncomplete="dialogGerTarefa.hide();" actionListener="#{tarefaMB.alterarTarefa}" value="Alterar Tarefa"/>
 	 
 	                </h:panelGrid>
 	            </h:form>

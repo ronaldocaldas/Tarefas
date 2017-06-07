@@ -1,13 +1,15 @@
 package br.com.superoti.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.event.ActionEvent;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 
 import org.springframework.dao.DataAccessException;
 
@@ -31,6 +33,7 @@ public class TarefaMB implements Serializable {
 	@ManagedProperty(value = "#{TarefaService}")
 	TarefaService tarefaService;
 
+	DataModel listaTaref;
 	List<Tarefa> tarefaList;
 
 	private Tarefa tarefa = new Tarefa();
@@ -40,13 +43,9 @@ public class TarefaMB implements Serializable {
 	 *
 	 * @return String - Response Message
 	 */
-	public String adicionaTarefa() {
+	public String adicionarTarefa() {
 		try {
-			Tarefa tarefa = new Tarefa();
-			tarefa.setTitulo(getTarefa().getTitulo());
-			tarefa.setDesc(getTarefa().getDesc());
-			tarefa.setDataCriacao(new Date());
-			getTarefaService().adicionaTarefa(getTarefa());
+			getTarefaService().adicionaTarefa(tarefa);
 			return SUCCESS;
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -54,6 +53,18 @@ public class TarefaMB implements Serializable {
 
 		return ERROR;
 	}
+	
+	public String alterarTarefa() {
+		try {
+			getTarefaService().updateTarefa(tarefa);
+			return SUCCESS;
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+
+		return ERROR;
+	}
+	
 
 	/**
 	 * Reseta campos do formulário
@@ -63,16 +74,39 @@ public class TarefaMB implements Serializable {
 		setTarefa(new Tarefa());
 	}
 
-	/**
-	 * Obtem a lista de todas as tarefas cadastradas
-	 *
-	 * @return tarefaList
-	 */
-	public List<Tarefa> getTarefaList() {
-		tarefaList = new ArrayList<Tarefa>();
-		tarefaList.addAll(getTarefaService().getTarefas());
-		return tarefaList;
-	}
+//	/**
+//	 * Obtem a lista de todas as tarefas cadastradas
+//	 *
+//	 * @return tarefaList
+//	 */
+//	public List<Tarefa> getTarefaList() {
+// 		tarefaList = new ArrayList<Tarefa>();
+//		tarefaList.addAll(getTarefaService().getTarefas());
+//		return tarefaList;
+//	}
+	
+	public DataModel getTarefaList() {
+		List<Tarefa> lista = getTarefaService().getTarefas();
+				listaTaref = new ListDataModel<>(lista);
+		return listaTaref;
+		}
+	
+	
+	public String excluirTarefa(){
+		Tarefa tarefaTemp = (Tarefa)(listaTaref.getRowData());
+		getTarefaService().deleteTarefa(tarefaTemp);
+		return "index";
+		}
+	
+	
+	public void prepararAdicionarTarefa(ActionEvent actionEvent){
+		tarefa = new Tarefa();
+		}
+	
+	public void prepararAlterarTarefa(ActionEvent actionEvent){
+		tarefa = (Tarefa)(listaTaref.getRowData());
+		}
+	
 
 	/**
 	 * Obtem o TarefaService
