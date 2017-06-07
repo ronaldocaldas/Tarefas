@@ -1,5 +1,6 @@
 package br.com.superoti.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -38,6 +39,7 @@ public class TarefaDAO  {
      */
 
     public void adicionaTarefa(Tarefa tarefa) {
+    	tarefa.setDataCriacao(new Date());
         getSessionFactory().getCurrentSession().save(tarefa);
     }
 
@@ -58,6 +60,7 @@ public class TarefaDAO  {
      */
 
     public void atualizaTarefa(Tarefa tarefa) {
+    	tarefa.setDataEdicao(new Date());
         getSessionFactory().getCurrentSession().update(tarefa);
     }
 

@@ -1,12 +1,13 @@
 package br.com.superoti.controller;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
@@ -27,18 +28,19 @@ import br.com.superoti.service.TarefaService;
 public class TarefaMB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final String SUCCESS = "successo";
+	private static final String SUCCESS = "index";
 	private static final String ERROR = "erro";
 
 	@ManagedProperty(value = "#{TarefaService}")
 	TarefaService tarefaService;
 
-	DataModel listaTaref;
-	List<Tarefa> tarefaList;
+	DataModel listaTarefa;
+	boolean atualizaTarefa;
 
 	private Tarefa tarefa = new Tarefa();
+	private Tarefa tarefaAtualizada = new Tarefa();
 
-	/**
+	/*
 	 * Adiciona uma tarefa
 	 *
 	 * @return String - Response Message
@@ -46,6 +48,7 @@ public class TarefaMB implements Serializable {
 	public String adicionarTarefa() {
 		try {
 			getTarefaService().adicionaTarefa(tarefa);
+	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Tarefa adicionada!."));
 			return SUCCESS;
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -56,7 +59,8 @@ public class TarefaMB implements Serializable {
 	
 	public String alterarTarefa() {
 		try {
-			getTarefaService().updateTarefa(tarefa);
+			getTarefaService().updateTarefa(tarefaAtualizada);
+	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Tarefa alterada!."));
 			return SUCCESS;
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -74,39 +78,32 @@ public class TarefaMB implements Serializable {
 		setTarefa(new Tarefa());
 	}
 
-//	/**
-//	 * Obtem a lista de todas as tarefas cadastradas
-//	 *
-//	 * @return tarefaList
-//	 */
-//	public List<Tarefa> getTarefaList() {
-// 		tarefaList = new ArrayList<Tarefa>();
-//		tarefaList.addAll(getTarefaService().getTarefas());
-//		return tarefaList;
-//	}
-	
+	@SuppressWarnings("rawtypes")
 	public DataModel getTarefaList() {
 		List<Tarefa> lista = getTarefaService().getTarefas();
-				listaTaref = new ListDataModel<>(lista);
-		return listaTaref;
+				listaTarefa = new ListDataModel<>(lista);
+		return listaTarefa;
 		}
 	
 	
 	public String excluirTarefa(){
-		Tarefa tarefaTemp = (Tarefa)(listaTaref.getRowData());
+		Tarefa tarefaTemp = (Tarefa)(listaTarefa.getRowData());
 		getTarefaService().deleteTarefa(tarefaTemp);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Tarefa excluida!."));
+
 		return "index";
 		}
 	
 	
 	public void prepararAdicionarTarefa(ActionEvent actionEvent){
+		atualizaTarefa = false;
 		tarefa = new Tarefa();
 		}
 	
 	public void prepararAlterarTarefa(ActionEvent actionEvent){
-		tarefa = (Tarefa)(listaTaref.getRowData());
+		atualizaTarefa = true;
+		tarefaAtualizada = (Tarefa)(listaTarefa.getRowData());
 		}
-	
 
 	/**
 	 * Obtem o TarefaService
@@ -126,14 +123,6 @@ public class TarefaMB implements Serializable {
 		this.tarefaService = tarefaService;
 	}
 
-	/**
-	 * Seta a tarefaList
-	 *
-	 * @param tarefaList
-	 */
-	public void setTarefaList(List<Tarefa> tarefaList) {
-		this.tarefaList = tarefaList;
-	}
 
 	/**
 	 * Obtem a tarefa do formulario
@@ -150,5 +139,21 @@ public class TarefaMB implements Serializable {
 	 */
 	public void setTarefa(Tarefa tarefa) {
 		this.tarefa = tarefa;
+	}
+
+	public boolean isAtualizaTarefa() {
+		return atualizaTarefa;
+	}
+
+	public void setAtualizaTarefa(boolean novaTarefa) {
+		this.atualizaTarefa = novaTarefa;
+	}
+
+	public Tarefa getTarefaAtualizada() {
+		return tarefaAtualizada;
+	}
+
+	public void setTarefaAtualizada(Tarefa tarefaAtualizada) {
+		this.tarefaAtualizada = tarefaAtualizada;
 	}
 }

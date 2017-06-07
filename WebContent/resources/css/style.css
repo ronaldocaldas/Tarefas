@@ -1,0 +1,20 @@
+.ui-datatable-odd {
+background: none repeat scroll 0 0 #F2F5F9;
+}
+
+.center{
+    margin: 0 auto;
+    width:400px;
+    height:200px;
+    margin-top: 70px;
+    background-color: #f7f7f7;
+}
+
+.concluido
+{
+  background:#b7fabe;
+}
+
+ .column1{width: 10px;height:auto}
+ .column2{width: 5px;height:auto}
+ .column3{width: 20px;height:auto}
