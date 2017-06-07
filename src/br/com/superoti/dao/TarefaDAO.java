@@ -70,7 +70,7 @@ public class TarefaDAO  {
 
     public Tarefa getTarefaById(int id) {
         List list = getSessionFactory().getCurrentSession()
-                                            .createQuery("from tarefa  where id=?")
+                                            .createQuery("from Tarefa  where id=?")
                                             .setParameter(0, id).list();
         return (Tarefa)list.get(0);
     }
@@ -82,7 +82,7 @@ public class TarefaDAO  {
      */
 
     public List<Tarefa> getTarefas() {
-		List list = getSessionFactory().getCurrentSession().createQuery("from  tarefa").list();
+		List list = getSessionFactory().getCurrentSession().createQuery("from Tarefa").list();
         return list;
     }
 

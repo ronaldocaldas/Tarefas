@@ -4,27 +4,76 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head><title>Projeto Cadastro de Tarefas</title></h:head>
 <h:body>
-    <h:form>
-        <table>
-            <tr>
-                <td><h:outputLabel for="titulo" value="Titulo : " /></td>
-                <td><p:inputText id="titulo" value="#{tarefaMB.tarefa.titulo}">
-                    <p:ajax event="blur" update="idMsg" />
-                </p:inputText>
-                </td>
-                </tr>
-                 <tr>
-                <td><h:outputLabel for="descricao" value="Descricao : " /></td>
-                <td><p:inputTextarea maxlength="255" id="descricao" value="#{tarefaMB.tarefa.desc}">
-                </p:inputTextarea>
-                    <p:message id="idMsg" for="titulo" display="icon"/>
-                </td>
-            </tr>
-            <tr>
-                <td><p:commandButton id="addUser" value="Adicionar" action="#{tarefaMB.adicionaTarefa}" ajax="false"/></td>
-                <td><p:commandButton id="reset" value="Limpar" action="#{tarefaMB.reset}" ajax="false"/></td>
-            </tr>
-        </table>
-    </h:form>
-</h:body>
+
+  <p:layout fullPage="true">
+            <p:layoutUnit position="left" width="200" header="Tarefas" resizable="true" closable="true" collapsible="true">
+                <h:form prependId="false">
+                    <p:commandLink value="Nova Tarefa" actionListener="#{tarefaMB.prepararAdicionarTarefa}" oncomplete="dialogGerTarefa.show()"/>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <h1>Gerenciador de Tarefas</h1>
+                <br/>
+                <h:form prependId="false">
+                    <p:dataTable id="tabela" var="tarefa" value="#{tarefaMB.tarefaList}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Título"/>
+                            </f:facet>
+                            <h:outputText value="#{tarefa.titulo}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descricao"/>
+                            </f:facet>
+                            <h:outputText value="#{tarefa.desc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Status"/>
+                            </f:facet>
+                            <h:outputText value="#{tarefa.status}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Criação"/>
+                            </f:facet>
+                            <h:outputText value="#{tarefa.dataCriacao}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Alterar"/>
+                            </f:facet>
+                            <p:commandButton actionListener="#{tarefaMB.prepararAlterarTarefa}" value="Alterar"  oncomplete="dialogGerTarefa.show()"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Excluir"/>
+                            </f:facet>
+                            <h:commandLink action="#{tarefaMB.excluirTarefa}" value="Excluir"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+	 	<p:dialog header="Gerencia de Tarefas" widgetVar="dialogGerTarefa" resizable="false" modal="true" showEffect="slide" width="500">
+	            <h:form prependId="false">
+	                <h:panelGrid id="infosLivro" columns="2" style="margin-bottom:10px">
+	 
+	                    <h:outputLabel for="titulo" value="Título:" />
+	                    <h:inputText id="titulo" value="#{tarefaMB.tarefa.titulo}"/>
+	 
+	                    <h:outputLabel for="desc" value="Descrição:" />
+	                    <h:inputText id="desc" value="#{tarefaMB.tarefa.desc}"/>
+	 
+	                    <h:outputLabel for="status" value="Status:" />
+	                    <h:inputText id="status" value="#{tarefaMB.tarefa.status}"/>
+	 
+	                    <p:commandButton  oncomplete="dialogGerTarefa.hide();" actionListener="#{tarefaMB.adicionarLivro}" value="Inserir Livro"/>
+	                    <p:commandButton  oncomplete="dialogGerTarefa.hide();" actionListener="#{tarefaMB.alterarLivro}" value="Alterar Livro"/>
+	 
+	                </h:panelGrid>
+	            </h:form>
+	       </p:dialog>
+	</h:body>
 </html>
