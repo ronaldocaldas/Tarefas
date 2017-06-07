@@ -1,7 +1,6 @@
-.ui-datatable-odd {
-background: none repeat scroll 0 0 #F2F5F9;
+th, td {
+    border-bottom: 1px solid #ddd;
 }
-
 .center{
     margin: 0 auto;
     width:400px;
@@ -15,6 +14,33 @@ background: none repeat scroll 0 0 #F2F5F9;
   background:#b7fabe;
 }
 
- .column1{width: 10px;height:auto}
- .column2{width: 5px;height:auto}
- .column3{width: 20px;height:auto}
+.coluna1 {
+	width: 135px;
+	border: red;
+}
+
+.coluna2 {
+	width: 50px;
+}
+
+.botao {
+  border-bottom:1px solid #dd0000;
+}
+
+.teste{
+	text-align: center;
+	 font-size: 40px;
+	 color: red;
+ 	
+}
+
+.ui-button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}

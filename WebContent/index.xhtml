@@ -3,19 +3,20 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Projeto Cadastro de Tarefas</title>
+	<title >Projeto Cadastro de Tarefas</title>
 	<h:outputStylesheet library="css" name="style.css" />
 </h:head>
 <h:body>
 
   <p:layout>
             <p:layoutUnit position="center" >
-                <h1>Gerenciador de Tarefas</h1>
                 <h:form id="tabelaForm">
-					<p:commandButton value="Nova Tarefa" actionListener="#{tarefaMB.prepararAdicionarTarefa}" update=":tabelaForm:tabela" oncomplete="dialogAddTarefa.show()"/>
- 					<p:panel header="Listagem de tarefas" id="tarefasPanel">
+					<p:panel header="Listagem de tarefas" id="tarefasPanel">
  					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-                   <p:dataTable id="tabela" var="tarefa" value="#{tarefaMB.tarefaList}" columnClasses="column1,column2,column3,column1,column2,column3" paginator="true" rows="10" rowStyleClass="#{!tarefa.status ? null : 'concluido'}" >
+ 					<div style="botao">
+ 					<p:commandButton value="Nova Tarefa" actionListener="#{tarefaMB.prepararAdicionarTarefa}" update=":tabelaForm:tabela" oncomplete="dialogAddTarefa.show()"/>
+ 					</div>
+                   <p:dataTable id="tabela" var="tarefa" value="#{tarefaMB.tarefaList}" columnClasses="coluna1,coluna2,column1,coluna1,coluna2,column1,coluna1,coluna2,column1," paginator="true" rows="10" rowStyleClass="#{!tarefa.status ? null : 'concluido'}" >
                         <p:column sortBy="titulo" headerText="Título">
                             <h:outputText value="#{tarefa.titulo}" />
                         </p:column>
@@ -31,14 +32,14 @@
 							</h:outputText>
                         </p:column>
  						<p:column headerText="Atualizado" >
-                            <h:outputText value="#{tarefa.dataEdicao}" >
+                            <h:outputText value="#{tarefa.dataEdicao}">
 							 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
 							</h:outputText>
                         </p:column>
                         <p:column headerText="Ações" >
-                            <p:commandButton actionListener="#{tarefaMB.prepararAlterarTarefa}" value="Alterar" update=":formModalUpdate:infosTarefaUpdade" oncomplete="dialogUpdateTarefa.show()"/>
+                            <p:commandButton actionListener="#{tarefaMB.prepararAlterarTarefa}" value="Alterar" update=":formModalUpdate:infosTarefaUpdade" styleClass="ui-button" oncomplete="dialogUpdateTarefa.show()"/>
 							 
-							<p:commandButton value="Excluir" actionListener="#{tarefaMB.excluirTarefa}"  update=":tabelaForm"  >
+							<p:commandButton value="Excluir" actionListener="#{tarefaMB.excluirTarefa}"  update=":tabelaForm"  styleClass="botao" >
 						        <p:confirm header="Confirmation" message="Tem certeza que quer excluir?" icon="ui-icon-alert"/>
 						  </p:commandButton>
 						  <p:confirmDialog global="true">
@@ -58,28 +59,16 @@
 	            <h:form id="formModalAdd" >
 				 
 	                <h:panelGrid id="infosTarefaAdd" columns="2" >
-	
-						<h:outputLabel for="criado" value="Criado:" />
-	                  	<h:outputText id="criado" value="#{tarefaMB.tarefa.dataCriacao}" readonly="true">
-							<f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-						</h:outputText>
-						
-						<h:outputLabel for="atualizado" value="Atualizado:" />
-	                  	<h:outputText id="atualizado" value="#{tarefaMB.tarefa.dataEdicao}" readonly="true">
-							<f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-						</h:outputText>
-	                   
-						<h:outputLabel for="titulo" value="Título:" />
-	                    <h:inputText id="titulo" value="#{tarefaMB.tarefa.titulo}"/>
-	 
+							<h:outputLabel for="titulo" value="Título:" />
+		                    <h:inputText id="titulo" value="#{tarefaMB.tarefa.titulo}"/>
 	                    <h:outputLabel for="desc" value="Descrição:" />
 						 <p:inputTextarea id="desc" rows="5" cols="30" counter="display" maxlength="255" counterTemplate="Restam {0}  caracteres." autoResize="false" value="#{tarefaMB.tarefa.desc}" />
 					    <h:outputText id="display" />
-	 
-	                    <h:outputLabel for="status" value="Concluído:" />
-	                    <p:selectBooleanButton id="status" value="#{tarefaMB.tarefa.status}" onLabel="Concluído"
-       					 offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" />
-	 
+	 					<h:panelGroup>
+		                    <h:outputLabel for="status" value="Concluído:" />
+		                    <p:selectBooleanButton id="status" value="#{tarefaMB.tarefa.status}" onLabel="Sim"
+	       					 offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" />
+						 </h:panelGroup>
 	                    <p:commandButton  oncomplete="dialogAddTarefa.hide();" actionListener="#{tarefaMB.adicionarTarefa}" value="Inserir Tarefa" update=":tabelaForm" />
 	 
 	                </h:panelGrid>
@@ -91,28 +80,18 @@
 	                <h:panelGrid id="infosTarefaUpdade" columns="2" >
 						<h:outputLabel for="id" value="id:" />
 	                  	<h:inputText id="id" value="#{tarefaMB.tarefaAtualizada.id}"  />
-	
-						<h:outputLabel for="criado" value="Criado:" />
-	                  	<h:outputText id="criado" value="#{tarefaMB.tarefaAtualizada.dataCriacao}" readonly="true">
-							<f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-						</h:outputText>
 						
-						<h:outputLabel for="atualizado" value="Atualizado:" />
-	                  	<h:outputText id="atualizado" value="#{tarefaMB.tarefaAtualizada.dataEdicao}" readonly="true">
-							<f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-						</h:outputText>
-	                   
 						<h:outputLabel for="titulo" value="Título:" />
 	                    <h:inputText id="titulo" value="#{tarefaMB.tarefaAtualizada.titulo}"/>
 	 
 	                    <h:outputLabel for="desc" value="Descrição:" />
 						 <p:inputTextarea id="desc" rows="5" cols="30" counter="display" maxlength="255" counterTemplate="Restam {0}  caracteres." autoResize="false" value="#{tarefaMB.tarefaAtualizada.desc}" />
 					    <h:outputText id="display" />
-	 
-	                    <h:outputLabel for="status" value="Concluído:" />
-	                    <p:selectBooleanButton id="status" value="#{tarefaMB.tarefaAtualizada.status}" onLabel="Concluído"
-       					 offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" />
-	 
+	 					<h:panelGroup>
+		                    <h:outputLabel for="status" value="Concluído:" />
+		                    <p:selectBooleanButton id="status" value="#{tarefaMB.tarefaAtualizada.status}" onLabel="Sim"
+	       					 offLabel="Não" onIcon="ui-icon-check" offIcon="ui-icon-close" />
+						 </h:panelGroup>
 	                    <p:commandButton  oncomplete="dialogUpdateTarefa.hide();" actionListener="#{tarefaMB.alterarTarefa}" value="Alterar Tarefa" update=":tabelaForm" />
 	 
 	                </h:panelGrid>

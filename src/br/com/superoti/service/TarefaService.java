@@ -66,7 +66,6 @@ public class TarefaService {
      *  Obtem todas as tarefas cadastradas
      *
      */
-
     public List<Tarefa> getTarefas() {
         return getTarefaDAO().getTarefas();
     }
