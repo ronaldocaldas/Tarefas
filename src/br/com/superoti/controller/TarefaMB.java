@@ -33,20 +33,20 @@ public class TarefaMB implements Serializable {
 
 	List<Tarefa> tarefaList;
 
-	private Tarefa tarefa;
+	private Tarefa tarefa = new Tarefa();
 
 	/**
 	 * Adiciona uma tarefa
 	 *
 	 * @return String - Response Message
 	 */
-	public String addTarefa() {
+	public String adicionaTarefa() {
 		try {
 			Tarefa tarefa = new Tarefa();
 			tarefa.setTitulo(getTarefa().getTitulo());
 			tarefa.setDesc(getTarefa().getDesc());
 			tarefa.setDataCriacao(new Date());
-			getTarefaService().addTarefa(getTarefa());
+			getTarefaService().adicionaTarefa(getTarefa());
 			return SUCCESS;
 		} catch (DataAccessException e) {
 			e.printStackTrace();

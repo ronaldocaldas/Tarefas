@@ -1,0 +1,4 @@
+br/com/superoti/model/Tarefa.class
+br/com/superoti/controller/TarefaMB.class
+br/com/superoti/service/TarefaService.class
+br/com/superoti/dao/TarefaDAO.class

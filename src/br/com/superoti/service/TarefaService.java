@@ -28,7 +28,7 @@ public class TarefaService {
      * @param  Tarefa tarefa
      */
     @Transactional(readOnly = false)
-    public void addTarefa(Tarefa tarefa) {
+    public void adicionaTarefa(Tarefa tarefa) {
         getTarefaDAO().adicionaTarefa(tarefa);
     }
 
